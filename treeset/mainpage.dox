@@ -1,6 +1,6 @@
 /**
 
-\mainpage HW10: Spell Checking using Hash Tables
+\mainpage HW10: Spell Checking using Binary Search Trees
 
 \tableofcontents
 
@@ -18,13 +18,12 @@ used or the program is useless.
     ./myspell [-d] dict
 
 The optional flag -d will produce statistics about the data structure used to
-represent the dictionary, printed to standard error (cerr).  The HashTable
+represent the dictionary, printed to standard error (cerr).  The Tree
 statistics print in the following format:
   
-     n expansions, load factor f, c collisions, longest run l
+     n nodes, height h
 
-where n, c, and l are integers, and f is a floating-point (double) number.
-This output should be followed by a newline.
+where n and h are integers. This output should be followed by a newline.
 
 The positional argument dict is the name of the dictionary file. This
 file must be a sequence of unique lowercase words separated by whitespace,
@@ -91,32 +90,6 @@ yay! Yay?
 yay: bay day gay hay jay lay may nay pay ray say way
 
 \endverbatim
-
-
-\section design Design Notes
-
-\subsection hashfunction Our Hash Function
-
-FNV-1a: FNV starts with an initial hash and multiplies it by an offset basis 
-(a really large number) and then uses the XOR logic comparison on the value
-and each byte in the string. It is said to have a generally uniform
-distribution and relatively fast runtime. We chose this hash function because
-it has a higher average avalanche, which is the change in output per small 
-change in input.
-
-\subsection hashtable Our Hash Table
-
-We implemented our hash table using separate chaining because it is fairly
-easy and it has a good overall performance compared to linear probing, 
-quadratic probing, and sometimes double hashing. 
-
-We chose a load factor of 10. Given a perfect hash function, the length of
-each chain would be the size of the load factor. We wanted a chain that is
-not too short, because then we would have to resize too often, but not too
-long, because we would be dealing with long LinkedLists. Our final decision
-on a load factor of 10 is the result of wanting a load factor larger than 2,
-but not ridiculously large. We also feel that the load factor is more
-important for hash tables using open addressing.
 
 */
 

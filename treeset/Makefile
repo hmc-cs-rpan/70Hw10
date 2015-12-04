@@ -19,7 +19,7 @@ CXXFLAGS       = -g -std=c++11 -Wall -Wextra -pedantic $(EXTRA_CXXFLAGS)
 # TARGETS is the list of all programs created when we do "make all"
 #   (and which should be deleted when we do "make clean")
 
-TARGETS = treeset-test
+TARGETS = treeset-test treeset-cow-test
 
 ###############################################################################
 # "PHONY" (BUT USEFUL) MAKEFILE TARGETS
@@ -41,8 +41,9 @@ clean:
 # "make test" brings all the testing programs up-to-date (recursively)
 #       and then runs them.
 
-test: treeset-test
+test: treeset-test treeset-cow-test
 	./treeset-test
+	./treeset-cow-test
 
 documentation: doxygen.config
 	doxygen doxygen.config
@@ -56,6 +57,9 @@ documentation: doxygen.config
 
 treeset-test: treeset-test.o gtest-all.o 
 	$(CXX) $(CXXFLAGS) -o treeset-test $^
+
+treeset-cow-test: treeset-cow-test.o gtest-all.o 
+	$(CXX) $(CXXFLAGS) -o treeset-cow-test $^
 
 myspell: myspell.o spellchecker.o
 	$(CXX) $(CXXFLAGS) -o myspell $^
@@ -75,6 +79,9 @@ stringutils.o: stringutils.cpp stringutils.hpp
 
 treeset-test.o: treeset-test.cpp treeset.hpp treeset-private.hpp
 	$(CXX) $(CXXFLAGS) -c treeset-test.cpp
+
+treeset-cow-test.o: treeset-cow-test.cpp treeset.hpp treeset-private.hpp
+	$(CXX) $(CXXFLAGS) -c treeset-cow-test.cpp
 
 spellchecker.o: hashset.hpp hashset-private.hpp spellchecker.hpp
 	$(CXX) $(CXXFLAGS) -c spellchecker.cpp

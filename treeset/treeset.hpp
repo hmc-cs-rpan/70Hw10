@@ -14,6 +14,10 @@
 
 template <class T>
 class TreeSet {
+
+
+struct Node;
+
 public:
 	/// Default constructor
 	TreeSet();
@@ -34,7 +38,7 @@ public:
 	 *
 	 * \param T&, a templated object
 	 */
-	void insert(const T& value);
+	void insert(const T& key);
 
 	/**
 	 * \brief Checks if an element is in the tree
@@ -43,7 +47,7 @@ public:
 	 *
 	 * \returns true if T is present in the tree
 	 */
-	bool exists(const T& value) const;
+	bool exists(const T& key) const;
 
 	/**
 	 * \brief Returns the height of the tree
@@ -53,12 +57,28 @@ public:
 	/** 
 	 * \brief Prints the relevant statistics about the tree
 	 */ 
-	showStatistics(std::ostream& out) const;
+	std::ostream& showStatistics(std::ostream& out) const;
 
 	/**
 	 * \brief Recursively prints the tree
 	 */
 	std::ostream& print(std::ostream&) const;
+
+	/**
+	 * \brief Recursively checks Nodes, helper function for exists
+	 */
+	bool existsNode(const Node* node, const T& key) const;
+
+	/**
+	 * \brief Recursively inserts a Node, helper function for insert
+	 */
+	void insertNode(const Node* node, const T& key);
+
+	/**
+	 * \brief Recursively deletes all Nodes, helper function for destructor
+	 */
+	void deleteNode(const Node* node);
+
 
 
 private:
@@ -68,11 +88,12 @@ private:
 		Node* rightChild_;
 		size_t descendants_;
 
-		Node(T value, Node* leftChild, Node* rightChild);
+		Node(T& value);
 	};
 
 	Node* root_;
-	size_t height_;
+	size_t size_;
+	int height_;
 
 };
 
