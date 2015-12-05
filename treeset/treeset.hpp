@@ -49,36 +49,32 @@ public:
 	 */
 	bool exists(const T& key) const;
 
-	/**
-	 * \brief Returns the height of the tree
-	 */
+	/// Returns the height of the tree
 	int height() const;
 
-	/** 
-	 * \brief Prints the relevant statistics about the tree
-	 */ 
+	/// Prints the relevant statistics about the tree
 	std::ostream& showStatistics(std::ostream& out) const;
 
-	/**
-	 * \brief Recursively prints the tree
-	 */
+	/// Recursively prints the tree
 	std::ostream& print(std::ostream&) const;
 
-	/**
-	 * \brief Recursively checks Nodes, helper function for exists
-	 */
-	bool existsNode(const Node* node, const T& key) const;
-
-	/**
-	 * \brief Recursively inserts a Node, helper function for insert
-	 */
-	void insertNode(const Node* node, const T& key);
-
-	/**
-	 * \brief Recursively deletes all Nodes, helper function for destructor
-	 */
+	/// Recursively deletes Nodes, helper function for the destructor
 	void deleteNode(const Node* node);
 
+	/// Recursively checks Nodes, helper function for exists
+	bool existsNode(const Node* node, const T& key) const;
+
+	/// Recursively inserts a Node, helper function for insert
+	void insertNode(Node*& node, const T& key);
+
+	/// Insert a node at the root instead of the leaf
+	void insertNodeAtRoot(Node*& node, const T& key);
+
+	/// Left rotation about the node 
+	void rotateLeft(Node*& top);
+
+	/// Right rotation about the node 
+	void rotateRight(Node*& top);
 
 
 private:
@@ -88,12 +84,11 @@ private:
 		Node* rightChild_;
 		size_t descendants_;
 
-		Node(T& value);
+		Node(const T& value);
 	};
 
 	Node* root_;
 	size_t size_;
-	int height_;
 
 };
 
