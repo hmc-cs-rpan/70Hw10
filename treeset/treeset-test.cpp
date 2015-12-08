@@ -41,11 +41,11 @@ TEST(stringTestSuite, manyInsertTest)
 {
     TreeSet<std::string> stringSet;
     
-    std::stringstream ss;
     std::string s;
 
     // Insert characters
     for (size_t ch = 32; ch < 127; ++ch) {
+        std::stringstream ss;
         ss << (char)ch;
         ss >> s;
         stringSet.insert(s);
@@ -53,7 +53,8 @@ TEST(stringTestSuite, manyInsertTest)
 
     // Check that all the characters have been inserted
     for (size_t ch = 32; ch < 127; ++ch) {
-        ss << ch;
+        std::stringstream ss;
+        ss << (char)ch;
         ss >> s;
         EXPECT_TRUE(stringSet.exists(s));
     }
@@ -87,6 +88,26 @@ TEST(stringTestSuite, smallDictStringInsertTest)
 
     EXPECT_EQ(stringSet.size(), 341U);
     EXPECT_LT(stringSet.height(), 250);
+}
+
+/// Tests the print function 
+TEST(stringTestSuite, smallDictStringPrintTest)
+{
+    TreeSet<std::string> stringSet;
+
+    stringSet.insert("b");
+    stringSet.insert("c");
+    stringSet.insert("a");
+    stringSet.insert("d");
+    stringSet.insert("e");
+    stringSet.insert("z");
+
+    // std::ostringstream outputString;
+    // std::string control = "(-, hello, (-, world, (-, !, -)))";
+
+    // stringSet.print(outputString);
+    stringSet.print(std::cout);
+    // EXPECT_TRUE(outputString.str() == control);
 }
 
 /****************************

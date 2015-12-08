@@ -7,7 +7,7 @@
  */
 
 template <class T>
-TreeSet<T>::TreeSet() : root_(nullptr), size_(0), height_(-1)
+TreeSet<T>::TreeSet() : root_(nullptr), size_(0)
 {
 	// Nothing to do here
 }
@@ -43,19 +43,21 @@ bool TreeSet<T>::exists(const T& key) const
 template <class T>
 int TreeSet<T>::height() const 
 {
-	return 0;
+	return heightNode(root_);
 }
 
 template <class T>
 std::ostream& TreeSet<T>::showStatistics(std::ostream& out) const 
 {
-	// Nothing to do here
+	out << size_ << " nodes, height " << height() << std::endl;
+	return out;
 }
 
 template <class T>
 std::ostream& TreeSet<T>::print(std::ostream& out) const
 {
-	// Print
+	printNode(root_, out);
+	return out;
 }
 
 template <class T>
@@ -78,27 +80,31 @@ bool TreeSet<T>::existsNode(const Node* node, const T& key) const
 template <class T>
 void TreeSet<T>::insertNode(Node*& node, const T& key) 
 {
-	++node->descendants_;
-
 	double randomNum = rand() % 100;
+	std::cout << randomNum << std::endl;
 
 	if (node == nullptr) {
 		node = new Node{key};
 	}
 	// There is a 1/(descendants_+1) probability of inserting at root
 	else if (randomNum < 100.0/node->descendants_) {
+		std::cout << "root" << std::endl;
 		insertNodeAtRoot(node, key);
 	}
 	else if (key < node->value_) {
+		std::cout << "leaf" << std::endl;
+		++node->descendants_;
 		insertNode(node->leftChild_, key);
 	}
 	else {
+		std::cout << "leaf" << std::endl;
+		++node->descendants_;
 		insertNode(node->rightChild_, key);
 	}
 }
 
 template <class T>
-void TreeSet<T>::deleteNode(const Node* node) 
+void TreeSet<T>::deleteNode(Node* node) 
 {
 	if (node != nullptr) {
 		deleteNode(node->leftChild_);
@@ -111,7 +117,7 @@ template <class T>
 void TreeSet<T>::insertNodeAtRoot(Node*& node, const T& key)
 {
 	if (node == nullptr) {
-		node = new TreeSet<T>::Node(key);
+		node = new Node{key};
 	}
 	else if (key < node->value_) {
 		insertNodeAtRoot(node->leftChild_, key);
@@ -124,6 +130,34 @@ void TreeSet<T>::insertNodeAtRoot(Node*& node, const T& key)
 }
 
 template <class T>
+int TreeSet<T>::heightNode(const Node* node) const
+{
+	if (node == nullptr) {
+		return -1;
+	}
+	else {
+		return 1 + std::max(heightNode(node->leftChild_), 
+			heightNode(node->rightChild_));
+	}
+}
+
+template <class T>
+void TreeSet<T>::printNode(const Node* node, std::ostream& out) const
+{
+	if (node == nullptr) {
+		out << "-";
+	}
+	else {
+		out << "(";
+		printNode(node->leftChild_, out);
+		out << ", ";
+		out << node->value_ << node->descendants_ << ", ";
+		printNode(node->rightChild_, out);
+		out << ")"; 
+	}
+}
+
+template <class T>
 void TreeSet<T>::rotateLeft(Node*& top) 
 {
 	Node* newTop = top->rightChild_;		// Value of new root
@@ -131,9 +165,15 @@ void TreeSet<T>::rotateLeft(Node*& top)
 	newTop->leftChild_ = top;
 	top = newTop;
 
-	// Update descendant counts
-	top->descendants_ += 2 + top->leftChild_->leftChild_->descendants_;
-	top->leftChild_ -= (2 + top->rightChild_->descendants_);
+	// Update descendant counts, as long as Nodes exist
+	top->descendants_ += 1;
+	top->leftChild_->descendants_ -= 1;
+	if (top->leftChild_->leftChild_ != nullptr) {
+		top->descendants_ += 1 + top->leftChild_->leftChild_->descendants_;
+	}
+	if (top->rightChild_ != nullptr) {
+		top->leftChild_->descendants_ -= 1 + top->rightChild_->descendants_;
+	}
 }
 
 template <class T>
@@ -144,9 +184,16 @@ void TreeSet<T>::rotateRight(Node*& top)
 	newTop->rightChild_ = top;
 	top = newTop;
 
-	// Update descendant counts
-	top->descendants_ += 2 + top->rightChild_->rightChild_->descendants_;
-	top->rightChild_ -= (2 + top->leftChild_->descendants_);
+	// Update descendant counts, as long as Nodes exist
+	top->descendants_ += 1;
+	top->rightChild_->descendants_ -= 1;
+	if (top->rightChild_->rightChild_ != nullptr) {
+		top->descendants_ += 
+			1 + top->rightChild_->rightChild_->descendants_;
+	}
+	if (top->leftChild_ != nullptr) {
+		top->rightChild_->descendants_ -= 1 + top->leftChild_->descendants_;
+	}
 }
 
 // --------------------------------------------

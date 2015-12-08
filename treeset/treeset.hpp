@@ -59,7 +59,7 @@ public:
 	std::ostream& print(std::ostream&) const;
 
 	/// Recursively deletes Nodes, helper function for the destructor
-	void deleteNode(const Node* node);
+	void deleteNode(Node* node);
 
 	/// Recursively checks Nodes, helper function for exists
 	bool existsNode(const Node* node, const T& key) const;
@@ -69,6 +69,12 @@ public:
 
 	/// Insert a node at the root instead of the leaf
 	void insertNodeAtRoot(Node*& node, const T& key);
+
+	/// Helper function for height()
+	int heightNode(const Node* node) const;
+
+	/// Helper function to print a node
+	void printNode(const Node* node, std::ostream& out) const;
 
 	/// Left rotation about the node 
 	void rotateLeft(Node*& top);
