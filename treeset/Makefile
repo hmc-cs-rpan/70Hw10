@@ -19,7 +19,7 @@ CXXFLAGS       = -g -std=c++11 -Wall -Wextra -pedantic $(EXTRA_CXXFLAGS)
 # TARGETS is the list of all programs created when we do "make all"
 #   (and which should be deleted when we do "make clean")
 
-TARGETS = treeset-test treeset-cow-test
+TARGETS = treeset-test treeset-cow-test myspell
 
 ###############################################################################
 # "PHONY" (BUT USEFUL) MAKEFILE TARGETS
@@ -83,7 +83,7 @@ treeset-test.o: treeset-test.cpp treeset.hpp treeset-private.hpp
 treeset-cow-test.o: treeset-cow-test.cpp treeset.hpp treeset-private.hpp
 	$(CXX) $(CXXFLAGS) -c treeset-cow-test.cpp
 
-spellchecker.o: hashset.hpp hashset-private.hpp spellchecker.hpp
+spellchecker.o: treeset.hpp treeset-private.hpp spellchecker.hpp
 	$(CXX) $(CXXFLAGS) -c spellchecker.cpp
 
 # The google test .o file is similar, except that it is
