@@ -102,7 +102,7 @@ void TreeSet<T>::insertNode(Node*& node, const T& key)
 }
 
 template <class T>
-void TreeSet<T>::deleteNode(Node* node) 
+void TreeSet<T>::deleteNode(const Node* node) 
 {
 	if (node != nullptr) {
 		deleteNode(node->leftChild_);
@@ -165,7 +165,7 @@ void TreeSet<T>::rotateLeft(Node*& top)
 	newTop->leftChild_ = top;
 	top = newTop;
 
-	// Update descendant counts, as long as Nodes exist
+	// Update descendant counts
 	top->descendants_ += 1;
 	top->leftChild_->descendants_ -= 1;
 	if (top->leftChild_->leftChild_ != nullptr) {
@@ -184,7 +184,7 @@ void TreeSet<T>::rotateRight(Node*& top)
 	newTop->rightChild_ = top;
 	top = newTop;
 
-	// Update descendant counts, as long as Nodes exist
+	// Update descendant counts
 	top->descendants_ += 1;
 	top->rightChild_->descendants_ -= 1;
 	if (top->rightChild_->rightChild_ != nullptr) {
