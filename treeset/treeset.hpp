@@ -11,6 +11,7 @@
 
 #include <cstddef>
 #include <iostream>
+#include <random>
 
 template <class T>
 class TreeSet {
@@ -82,6 +83,9 @@ public:
 	/// Right rotation about the node 
 	void rotateRight(Node*& top);
 
+	/// Generate random numbers
+	float getRandomFloat();
+
 
 private:
 	struct Node {
@@ -95,6 +99,11 @@ private:
 
 	Node* root_;
 	size_t size_;
+
+	std::uniform_real_distribution<> dis_;
+    std::mt19937 gen_;
+
+    void seed();
 
 };
 

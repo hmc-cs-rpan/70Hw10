@@ -95,19 +95,46 @@ TEST(stringTestSuite, smallDictStringPrintTest)
 {
     TreeSet<std::string> stringSet;
 
+    stringSet.insert("hello");
+
+    std::ostringstream outputString;
+    std::string control = "(-, hello, -)";
+
+    stringSet.print(outputString);
+
+    EXPECT_TRUE(outputString.str() == control);
+}
+
+/// Test multiple inserts in alphabetical order
+TEST(stringTestSuite, alphabeticalTest)
+{
+    TreeSet<std::string> stringSet;
+
+    stringSet.insert("a");
     stringSet.insert("b");
+    stringSet.insert("c");
+    stringSet.insert("d");
+    stringSet.insert("e");
+
+    stringSet.print(std::cout) << std::endl;
+
+    EXPECT_EQ(stringSet.size(), 5U);
+}
+
+/// Test multiple inserts in non-alphabetical order
+TEST(stringTestSuite, nonAlphabeticalTest)
+{
+    TreeSet<std::string> stringSet;
+
+    stringSet.insert("b");
+    stringSet.insert("e");
     stringSet.insert("c");
     stringSet.insert("a");
     stringSet.insert("d");
-    stringSet.insert("e");
-    stringSet.insert("z");
 
-    // std::ostringstream outputString;
-    // std::string control = "(-, hello, (-, world, (-, !, -)))";
+    stringSet.print(std::cout) << std::endl;
 
-    // stringSet.print(outputString);
-    stringSet.print(std::cout);
-    // EXPECT_TRUE(outputString.str() == control);
+    EXPECT_EQ(stringSet.size(), 5U);
 }
 
 /****************************

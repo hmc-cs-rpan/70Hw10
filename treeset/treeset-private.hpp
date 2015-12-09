@@ -6,10 +6,12 @@
  * \brief Implements TreeSet<T>, a binary search tree class template
  */
 
+#include <random>
+
 template <class T>
-TreeSet<T>::TreeSet() : root_(nullptr), size_(0)
+TreeSet<T>::TreeSet() : root_(nullptr), size_(0), dis_(0,1)
 {
-	// Nothing to do here
+	seed();
 }
 
 template <class T>
@@ -80,24 +82,20 @@ bool TreeSet<T>::existsNode(const Node* node, const T& key) const
 template <class T>
 void TreeSet<T>::insertNode(Node*& node, const T& key) 
 {
-	double randomNum = rand() % 100;
-	std::cout << randomNum << std::endl;
+	double randomNum = getRandomFloat();
 
 	if (node == nullptr) {
 		node = new Node{key};
 	}
 	// There is a 1/(descendants_+1) probability of inserting at root
-	else if (randomNum < 100.0/node->descendants_) {
-		std::cout << "root" << std::endl;
+	else if (randomNum < 1.0/(node->descendants_+1)) {
 		insertNodeAtRoot(node, key);
 	}
 	else if (key < node->value_) {
-		std::cout << "leaf" << std::endl;
 		++node->descendants_;
 		insertNode(node->leftChild_, key);
 	}
 	else {
-		std::cout << "leaf" << std::endl;
 		++node->descendants_;
 		insertNode(node->rightChild_, key);
 	}
@@ -120,10 +118,12 @@ void TreeSet<T>::insertNodeAtRoot(Node*& node, const T& key)
 		node = new Node{key};
 	}
 	else if (key < node->value_) {
+		++node->descendants_;
 		insertNodeAtRoot(node->leftChild_, key);
 		rotateRight(node);
 	}
 	else {
+		++node->descendants_;
 		insertNodeAtRoot(node->rightChild_, key);
 		rotateLeft(node);
 	}
@@ -151,7 +151,7 @@ void TreeSet<T>::printNode(const Node* node, std::ostream& out) const
 		out << "(";
 		printNode(node->leftChild_, out);
 		out << ", ";
-		out << node->value_ << node->descendants_ << ", ";
+		out << node->value_ << ", ";
 		printNode(node->rightChild_, out);
 		out << ")"; 
 	}
@@ -188,12 +188,24 @@ void TreeSet<T>::rotateRight(Node*& top)
 	top->descendants_ += 1;
 	top->rightChild_->descendants_ -= 1;
 	if (top->rightChild_->rightChild_ != nullptr) {
-		top->descendants_ += 
-			1 + top->rightChild_->rightChild_->descendants_;
+		top->descendants_ += 1 + top->rightChild_->rightChild_->descendants_;
 	}
 	if (top->leftChild_ != nullptr) {
 		top->rightChild_->descendants_ -= 1 + top->leftChild_->descendants_;
 	}
+}
+
+template <class T>
+void TreeSet<T>::seed()
+{
+    std::random_device rd;
+    gen_.seed(rd());
+}
+
+template <class T>
+float TreeSet<T>::getRandomFloat()
+{
+    return dis_(gen_);
 }
 
 // --------------------------------------------
