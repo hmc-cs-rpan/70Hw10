@@ -28,15 +28,24 @@ using namespace std;
 void spellcheck(const string& dictfile, bool debug)
 {
     string word;
+    SpellChecker oxford(dictfile);
 
     // Keep track of checked words, to avoid printing repeated misspellings
     forward_list<string> inputs = forward_list<string>();
 
-    SpellChecker oxford(dictfile);
     if (debug == true) {
         oxford.dict_.showStatistics(cerr);
     }
     while (cin >> word) {
+
+        // Convert word to lowercase
+        transform(word.begin(), word.end(), word.begin(), ::tolower);
+
+        // Delete any punctuation at the last character
+        if (!isalpha(word.back())) {
+            word.pop_back();
+        }
+
         // If word has not already been spellchecked, spellcheck it
         if (find(inputs.begin(), inputs.end(), word) == inputs.end()) {
             oxford.spellCheck(word);

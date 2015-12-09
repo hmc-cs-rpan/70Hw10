@@ -38,12 +38,10 @@ void SpellChecker::spellCheck(std::string& word) const
 {
     string letter;
 
-    // Convert to lowercase
-    transform(word.begin(), word.end(), word.begin(), ::tolower);
 
     if (!dict_.exists(word)) {
 
-        cerr << word << ": ";
+        cout << word << ": ";
 
         // Check if nearby words exist, by replacing each letter with 
         // all possible letters
@@ -60,10 +58,10 @@ void SpellChecker::spellCheck(std::string& word) const
 
                 // Print the dictionary suggestion
                 if (dict_.exists(currWord)) {
-                    cerr << currWord << " ";
+                    cout << currWord << " ";
                 }
             }
         }
-        cerr << endl;
+        cout << endl;
     }  
 }

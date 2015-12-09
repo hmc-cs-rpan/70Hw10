@@ -80,7 +80,7 @@ go to cout.
 
 \verbatim
 % ./myspell -d ispell.words
-15 expansions, load factor 0.531479, 7857 collisions, longest run 6
+34831 nodes, height 37
 This is a sentence spelled incorrrectluy.
 incorrrectluy:
 This is a sentence spelled correctly.
