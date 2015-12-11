@@ -1,0 +1,58 @@
+Test 1: OK    		(Basic TreeSet test (using TreeSet<size_t>))
+			Command: ./cs70-treeset-test 
+cout>	Testing TreeSet, size = 4096
+cout>	Filling set...
+cout>	Searching...
+cout>	Final tree height okay!
+cout>	Done (0 assertion failures).
+
+Test 2: OK    		(myspell -d with tiny dictionary checking itself)
+			Command: ./myspell -d /cs/grader/cs70grad/support/11/testcases/tinywords.dict
+cerr>	661 nodes, height 20
+
+Test 3: OK    		(myspell -d with large dictionary checking subset)
+			Command: ./myspell -d /cs/grader/cs70grad/support/11/testcases/large.dict
+cerr>	264691 nodes, height 44
+
+Test 4: OK    		(TreeSet space leak test)
+			Command: ./cs70-treeset-test 32768 10
+cout>	Testing TreeSet, size = 32768, 10 rounds
+cout>	Filling set...
+cout>	Filling set...
+cout>	Filling set...
+	[ ... etc. ... ]
+
+Test 5: OK    		(TreeSet null-tree print test (using TreeSet<size_t>))
+			Command: ./cs70-treeset-test -p 0
+cout>	Testing TreeSet, size = 0
+cout>	Filling set...
+cout>	Contents: -
+cout>	Searching...
+	[ ... etc. ... ]
+
+Test 6: OK    		(TreeSet one-element tree print test (using TreeSet<size_t>))
+			Command: ./cs70-treeset-test -p 1
+cout>	Testing TreeSet, size = 1
+cout>	Filling set...
+cout>	Contents: (-, 100, -)
+cout>	Searching...
+	[ ... etc. ... ]
+
+Test 7: OK    		(TreeSet multi-element tree print test (using TreeSet<size_t>))
+			Command: /cs/grader/cs70grad/support/11/testcases/cs70-printset-test 
+cout>	Testing TreeSet, size = 177
+cout>	Filling set...
+cout>	Contents: 100 112 122 127 134 136 139 166 177 206 215 219 232 235 252 
+cout>	  259 267 283 286 296 306 333 351 364 373 416 447 471 474 479 486 499 
+	[ ... etc. ... ]
+
+Test 8: OK    		(Basic TreeSet test (using TreeSet<size_t> + valgrind))
+			Command: /usr/bin/valgrind -q ./cs70-treeset-test
+cout>	Testing TreeSet, size = 4096
+cout>	Filling set...
+cout>	Searching...
+cout>	Final tree height okay!
+cout>	Done (0 assertion failures).
+
+Test 9: OK    		(myspell with tiny dictionary checking itself (+ valgrind))
+			Command: /usr/bin/valgrind -q ./myspell /cs/grader/cs70grad/support/11/testcases/tinywords.dict
